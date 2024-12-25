@@ -1,0 +1,14 @@
+create a .env file before starting the project at the root
+paste these variables that are required for testing in local development server
+
+PORT=8000
+MONGODB_URI=mongodb://localhost:27017/SpringPro22
+JWT_SECRET=1234
+ADMIN_EMAIL=admin@gmail.com
+ADMIN_PASSWORD=admin1234
+
+to start backend : npm run dev
+to start frontend : npm starting
+
+but first npm i in both backend and client
+
