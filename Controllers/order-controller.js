@@ -173,6 +173,8 @@ const orderSubmit = async (req, res) => {
       }
     }
 
+    console.log(customer);
+
     // Create or reference IMEI numbers
     const existingIMEIs = await imeiModel.find({
       imei: { $in: imeiNumbers },
