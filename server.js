@@ -9,12 +9,11 @@ var app = express();
 app.use(bodyParser.json());
 
 app.use(cors({
-    origin: true,  // Allow all origins
-    methods: ['GET', 'POST', 'PUT', 'OPTIONS'],  
-    allowedHeaders: ['Content-Type', 'Authorization'],  
-    credentials: true  
-  }));
-  
+  origin: '*', // Allow all origins
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
   app.options('*', cors()); 
 app.use(express.json());
 app.use("/api/auth", authRouter);
