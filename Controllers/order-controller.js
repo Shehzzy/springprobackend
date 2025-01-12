@@ -302,7 +302,7 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
-const getCustomers = async (res, res) => {
+const getCustomers = async (req, res) => {
   const customers = await CustomerModel.find({agentId:req.user.userId});
   return res.json({message:"Here are customers", customers});
 }
