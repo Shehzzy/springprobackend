@@ -25,6 +25,23 @@ const OrderSchema = new Schema(
       type: String,
       required: true,
     },
+    agentCode: {
+      type: String,
+      required: true,
+    },
+    dealerCode: {
+      type: String,
+      required: true,
+    },
+    existingBAN: {
+      type: String,
+      required: true,
+    },
+    existingFAN: {
+      type: String,
+      required: true,
+    },
+
     agreementtype: {
       type: String,
       enum: ["amb", "acda"],
@@ -87,6 +104,7 @@ const OrderSchema = new Schema(
         billingstate: { type: String },
         billingzip: { type: String },
         authorizedname: { type: String },
+        uniqueCode: { type: String },
       },
     ],
     status: {
