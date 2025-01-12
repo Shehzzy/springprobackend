@@ -1,5 +1,6 @@
 const orderModel = require("../Models/OrderModel");
 const imeiModel = require('../Models/imeiModel');
+const customerModel = require('../Models/CustomerModel'); // Import the Customer model
 
 // ORDER CREATION API - Post
 const orderSubmit = async (req, res) => {
@@ -8,8 +9,8 @@ const orderSubmit = async (req, res) => {
       return res.status(400).json({ message: "Order details are missing" });
     }
 
-    const userId = req.user.userId; 
-    const { imeiNumbers, ...orderData } = req.body; 
+    const userId = req.user.userId;
+    const { imeiNumbers, customerData, ...orderData } = req.body; 
 
     // Validate IMEI numbers
     if (
@@ -18,6 +19,18 @@ const orderSubmit = async (req, res) => {
       imeiNumbers.length === 0
     ) {
       return res.status(400).json({ message: "IMEI numbers are required" });
+    }
+
+    // Validate and create or reference customer data
+    let customer;
+    if (customerData) {
+      // Check if customer already exists using unique identifier like taxId or email
+      customer = await customerModel.findOne({ taxid: customerData.taxid });
+
+      if (!customer) {
+        // Create new customer if it doesn't exist
+        customer = await customerModel.create(customerData);
+      }
     }
 
     // Create or reference IMEI numbers
@@ -41,9 +54,11 @@ const orderSubmit = async (req, res) => {
       ...createdIMEIs.map((imei) => imei._id),
     ];
 
+    // Create the order
     const order = await orderModel.create({
       ...orderData,
       userId,
+      customerId: customer ? customer._id : null, // Associate the order with the customer
       imeiNumbers: allIMEIIds, // Store the IMEI IDs in the order
     });
 
@@ -59,11 +74,15 @@ const orderSubmit = async (req, res) => {
 // Get All Orders API
 const getOrders = async (req, res) => {
   try {
-    const allOrders = await orderModel.find().populate('imeiNumbers'); // Populate the imeiNumbers field
+    const allOrders = await orderModel
+      .find()
+      .populate('imeiNumbers')
+      .populate('customerId'); // Populate both imeiNumbers and customerId fields
 
     if (!allOrders || allOrders.length === 0) {
       return res.json({ message: "No orders found" });
     }
+
     return res.json({ message: "Here's the order data", orderData: allOrders });
   } catch (error) {
     console.error("Error fetching orders:", error);
@@ -71,8 +90,7 @@ const getOrders = async (req, res) => {
   }
 };
 
-
-// get user imei API
+// Get user IMEI numbers API
 const getIMEINumbers = async (req, res) => {
   try {
     const userId = req.user.userId; // Get the user ID from the request
@@ -88,12 +106,13 @@ const getIMEINumbers = async (req, res) => {
   }
 };
 
+// Get user orders API
 const getUserOrders = async (req, res) => {
   try {
     const userId = req.user.userId;
 
-    // Fetch orders and populate the imeiNumbers field
-    const orders = await orderModel.find({ userId }).populate('imeiNumbers');
+    // Fetch orders and populate the imeiNumbers and customerId fields
+    const orders = await orderModel.find({ userId }).populate('imeiNumbers').populate('customerId');
 
     res.status(200).json({
       message: "Orders retrieved successfully",
@@ -104,6 +123,7 @@ const getUserOrders = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 // Update order status API
 const updateOrderStatus = async (req, res) => {
   try {
