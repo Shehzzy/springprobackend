@@ -21,8 +21,14 @@ const CustomerSchema = new mongoose.Schema(
     shippingcity: { type: String },
     shippingstate: { type: String },
     shippingzip: { type: String },
+    agentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User', // This references the User (Agent) model
+      default: null, // You can set it to null initially if not assigned
+    },
   },
   { timestamps: true }
 );
+
 // Export the model
 module.exports = mongoose.model('Customer', CustomerSchema);

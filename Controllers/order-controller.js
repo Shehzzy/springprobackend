@@ -141,6 +141,7 @@
 const orderModel = require("../Models/OrderModel");
 const imeiModel = require("../Models/imeiModel");
 const customerModel = require("../Models/CustomerModel"); // Import the Customer model
+const CustomerModel = require("../Models/CustomerModel");
 
 // ORDER CREATION API - Post
 const orderSubmit = async (req, res) => {
@@ -169,7 +170,7 @@ const orderSubmit = async (req, res) => {
 
       if (!customer) {
         // Create new customer if it doesn't exist
-        customer = await customerModel.create(customerData);
+        customer = await customerModel.create({...customerData, agentId: userId });
       }
     }
 
@@ -301,12 +302,19 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
+const getCustomers = async (res, res) => {
+  const customers = await CustomerModel.find({agentId:req.user.userId});
+  return res.json({message:"Here are customers", customers});
+}
+
 const checkAgentAlreadyExists = async (req, res) => {};
 
 module.exports = {
   orderSubmit,
+  getCustomers,
   getUserOrders,
   getOrders,
   updateOrderStatus,
   getIMEINumbers,
+  getCustomers
 };
