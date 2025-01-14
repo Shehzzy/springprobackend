@@ -291,6 +291,8 @@ const orderSubmit = async (req, res) => {
       imeiNumbers,
       customerData,
       carrierInfos,
+      accountFields,
+      phoneNumbers,
       ...orderData
     } = req.body;
 
@@ -348,6 +350,8 @@ const orderSubmit = async (req, res) => {
       customerId: customer ? customer._id : null, // Ensure valid customerId or null
       imeiNumbers: allIMEIIds, // Store the IMEI IDs in the order
       carrierInfos: carrierInfos, // Store the carrier information
+      accountFields,
+      phoneNumbers,
     });
 
     return res
