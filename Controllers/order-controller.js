@@ -350,7 +350,7 @@ const orderSubmit = async (req, res) => {
       customerId: customer ? customer._id : null, // Ensure valid customerId or null
       imeiNumbers: allIMEIIds, // Store the IMEI IDs in the order
       carrierInfos: carrierInfos, // Store the carrier information
-      accountFields,
+      accounts:accountFields,
       phoneNumbers,
     });
 
