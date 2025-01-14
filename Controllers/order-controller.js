@@ -280,7 +280,6 @@ const CustomerModel = require("../Models/CustomerModel");
 //   }
 // };
 
-
 const orderSubmit = async (req, res) => {
   try {
     if (!req.body) {
@@ -288,10 +287,21 @@ const orderSubmit = async (req, res) => {
     }
 
     const userId = req.user.userId; // Assuming user ID is available in req.user
-    const { imeiNumbers, customerData, carrierInfos, ...orderData } = req.body;
+    const {
+      imeiNumbers,
+      customerData,
+      carrierInfos,
+      accounts,
+      phoneNumbers,
+      ...orderData
+    } = req.body;
 
     // Validate IMEI numbers
-    if (!imeiNumbers || !Array.isArray(imeiNumbers) || imeiNumbers.length === 0) {
+    if (
+      !imeiNumbers ||
+      !Array.isArray(imeiNumbers) ||
+      imeiNumbers.length === 0
+    ) {
       return res.status(400).json({ message: "IMEI numbers are required" });
     }
 
@@ -303,7 +313,10 @@ const orderSubmit = async (req, res) => {
 
       if (!customer) {
         // Create new customer if it doesn't exist
-        customer = await customerModel.create({ ...customerData, agentId: userId });
+        customer = await customerModel.create({
+          ...customerData,
+          agentId: userId,
+        });
       }
     }
 
@@ -337,9 +350,13 @@ const orderSubmit = async (req, res) => {
       customerId: customer ? customer._id : null, // Ensure valid customerId or null
       imeiNumbers: allIMEIIds, // Store the IMEI IDs in the order
       carrierInfos: carrierInfos, // Store the carrier information
+      accounts: accounts, // Save accounts
+      phoneNumbers: phoneNumbers, // Save phone numbers
     });
 
-    return res.status(201).json({ message: "Order created successfully", order });
+    return res
+      .status(201)
+      .json({ message: "Order created successfully", order });
   } catch (error) {
     console.error("Order creation error:", error);
     return res.status(500).json({ message: "Server error", error });
@@ -433,9 +450,9 @@ const updateOrderStatus = async (req, res) => {
 };
 
 const getCustomers = async (req, res) => {
-  const customers = await CustomerModel.find({agentId:req.user.userId});
-  return res.json({message:"Here are customers", customers});
-}
+  const customers = await CustomerModel.find({ agentId: req.user.userId });
+  return res.json({ message: "Here are customers", customers });
+};
 
 const checkAgentAlreadyExists = async (req, res) => {};
 
@@ -446,5 +463,5 @@ module.exports = {
   getOrders,
   updateOrderStatus,
   getIMEINumbers,
-  getCustomers
+  getCustomers,
 };
