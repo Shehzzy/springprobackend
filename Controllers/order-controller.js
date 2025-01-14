@@ -288,7 +288,7 @@ const orderSubmit = async (req, res) => {
     }
 
     const userId = req.user.userId; // Assuming user ID is available in req.user
-    const { imeiNumbers, customerData, carrierInfos,accountFields, phoneNumbers, ...orderData } = req.body;
+    const { imeiNumbers, customerData, carrierInfos, ...orderData } = req.body;
 
     // Validate IMEI numbers
     if (!imeiNumbers || !Array.isArray(imeiNumbers) || imeiNumbers.length === 0) {
