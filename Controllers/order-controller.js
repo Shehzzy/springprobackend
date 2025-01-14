@@ -279,7 +279,7 @@ const CustomerModel = require("../Models/CustomerModel");
 //     return res.status(500).json({ message: "Server error", error });
 //   }
 // };
-
+// ,akinf changes 
 const orderSubmit = async (req, res) => {
   try {
     if (!req.body) {
