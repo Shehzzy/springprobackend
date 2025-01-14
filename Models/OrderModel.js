@@ -5,7 +5,7 @@ const OrderSchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "User ",
       required: true,
     },
     customerId: {
@@ -41,7 +41,6 @@ const OrderSchema = new Schema(
       type: String,
       required: true,
     },
-
     agreementtype: {
       type: String,
       enum: ["amb", "acda"],
@@ -60,11 +59,9 @@ const OrderSchema = new Schema(
     specialinstruction: {
       type: String,
     },
-
-    // New fields for rate plan and smartphone details
     ratePlan: {
       type: String,
-      enum: ["basic", "premium", "unlimited"], // Add any other rate plans here
+      enum: ["basic", "premium", "unlimited"],
     },
     smartphoneDetails: {
       brand: { type: String },
@@ -72,7 +69,6 @@ const OrderSchema = new Schema(
       color: { type: String },
       size: { type: String },
     },
-
     currentwirelesscarrier: {
       type: String,
     },
@@ -96,7 +92,7 @@ const OrderSchema = new Schema(
     },
     billingstate: {
       type: String,
-      default: "", // Optional: Use default if it's an optional field.
+      default: "",
     },
     billingzip: {
       type: String,
@@ -104,7 +100,7 @@ const OrderSchema = new Schema(
     authorizedname: {
       type: String,
     },
-    imeiNumbers: [{ type: Schema.Types.ObjectId, ref: "IMEI" }], // Reference to IMEI numbers
+    imeiNumbers: [{ type: Schema.Types.ObjectId, ref: "IMEI" }],
     carrierInfos: [
       {
         currentwirelesscarrier: { type: String },
@@ -120,9 +116,22 @@ const OrderSchema = new Schema(
         uniqueCode: { type: String },
       },
     ],
+    // New fields for IMEI modal
+    accounts: [
+      {
+        accountNumber: { type: String, required: true },
+        portOutPin: { type: String, required: true },
+      },
+    ],
+    phoneNumbers: [
+      {
+        phoneNumber: { type: String, required: true },
+        carrier: { type: String, required: true },
+      },
+    ],
     status: {
       type: String,
-      default: "Pending", // Default status if not provided
+      default: "Pending",
     },
   },
   { timestamps: true }
