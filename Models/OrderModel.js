@@ -5,7 +5,7 @@ const OrderSchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
-      ref: "User ",
+      ref: "User",
       required: true,
     },
     customerId: {
@@ -60,6 +60,19 @@ const OrderSchema = new Schema(
     specialinstruction: {
       type: String,
     },
+
+    // New fields for rate plan and smartphone details
+    ratePlan: {
+      type: String,
+      enum: ["basic", "premium", "unlimited"], // Add any other rate plans here
+    },
+    smartphoneDetails: {
+      brand: { type: String },
+      model: { type: String },
+      color: { type: String },
+      size: { type: String },
+    },
+
     currentwirelesscarrier: {
       type: String,
     },
