@@ -133,6 +133,7 @@ const OrderSchema = new Schema(
       type: String,
       default: "Pending",
     },
+    shippingAddresses: { type: Map, of: String }, // Map of IMEI to shipping address
   },
   { timestamps: true }
 );

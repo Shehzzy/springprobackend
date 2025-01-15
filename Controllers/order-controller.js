@@ -279,7 +279,7 @@ const CustomerModel = require("../Models/CustomerModel");
 //     return res.status(500).json({ message: "Server error", error });
 //   }
 // };
-// ,akinf changes 
+// ,akinf changes
 const orderSubmit = async (req, res) => {
   try {
     if (!req.body) {
@@ -293,9 +293,9 @@ const orderSubmit = async (req, res) => {
       carrierInfos,
       accountFields,
       phoneNumbers,
+      shippingAddresses,
       ...orderData
     } = req.body;
-
 
     console.log(accountFields, "Accoutn fieds are here");
     // Validate IMEI numbers
@@ -352,7 +352,7 @@ const orderSubmit = async (req, res) => {
       customerId: customer ? customer._id : null, // Ensure valid customerId or null
       imeiNumbers: allIMEIIds, // Store the IMEI IDs in the order
       carrierInfos: carrierInfos, // Store the carrier information
-      accounts:accountFields,
+      accounts: accountFields,
       phoneNumbers,
     });
 
