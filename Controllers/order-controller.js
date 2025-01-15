@@ -298,6 +298,7 @@ const orderSubmit = async (req, res) => {
     } = req.body;
 
     console.log(accountFields, "Accoutn fieds are here");
+    console.log(customerData, "Cusgomer Data is here ")
     // Validate IMEI numbers
     if (
       !imeiNumbers ||
