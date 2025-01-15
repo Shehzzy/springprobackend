@@ -314,13 +314,18 @@ const orderSubmit = async (req, res) => {
     if (customerData) {
       customer = await customerModel.findOne({ taxid: customerData.taxid });
 
-      if (!customer) {
+      // if (!customer) {
+      //   // Create new customer if it doesn't exist
+      //   customer = await customerModel.create({
+      //     ...customerData,
+      //     agentId: userId,
+      //   });
+      // }
         // Create new customer if it doesn't exist
         customer = await customerModel.create({
           ...customerData,
           agentId: userId,
         });
-      }
     }
 
     // Create or reference IMEI numbers
