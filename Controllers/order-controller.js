@@ -353,6 +353,7 @@ const orderSubmit = async (req, res) => {
       imeiNumbers: allIMEIIds, // Store the IMEI IDs in the order
       carrierInfos: carrierInfos, // Store the carrier information
       accounts: accountFields,
+      shippingAddresses:shippingAddresses,
       phoneNumbers,
     });
 
