@@ -382,16 +382,19 @@ const orderSubmit = async (req, res) => {
       userId,
     });
 
+    // Collect existing IMEI IDs
     const existingIMEIIds = existingIMEIs.map((imei) => imei._id);
 
-    // Create new IMEI numbers if they don't exist
+    // Filter for new IMEIs (not already in the database)
     const newIMEIs = imeiNumbers.filter(
       (imei) => !existingIMEIs.some((existing) => existing.imei === imei)
     );
 
+    // Insert new IMEIs into the database
     const createdIMEIs = await imeiModel.insertMany(
       newIMEIs.map((imei) => ({ userId, imei }))
     );
+    console.log("Created IMEIs:", createdIMEIs);
 
     // Combine existing and newly created IMEI IDs
     const allIMEIIds = [
@@ -405,10 +408,10 @@ const orderSubmit = async (req, res) => {
       userId,
       customerId: customer ? customer._id : null, // Ensure valid customerId or null
       imeiNumbers: allIMEIIds, // Store the IMEI IDs in the order
-      carrierInfos: carrierInfos, // Store the carrier information
-      accounts: accountFields,
-      shippingAddresses: shippingAddresses,
-      phoneNumbers,
+      carrierInfos, // Store the carrier information
+      accounts: accountFields, // Store account fields
+      shippingAddresses, // Store shipping addresses
+      phoneNumbers, // Store phone numbers
     });
 
     return res
@@ -419,6 +422,7 @@ const orderSubmit = async (req, res) => {
     return res.status(500).json({ message: "Server error", error });
   }
 };
+
 
 // Get All Orders API
 const getOrders = async (req, res) => {
