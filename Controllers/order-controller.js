@@ -516,11 +516,34 @@ const getCustomers = async (req, res) => {
   return res.json({ message: "Here are customers", customers });
 };
 
-const checkAgentAlreadyExists = async (req, res) => {};
+const getSingleOrder = async (req, res) => {
+  const orderId = req.params.id;
+
+  try {
+    const order = await orderModel
+      .findById(orderId)
+      .populate("customerId") 
+      .populate("imeiNumbers") 
+      .populate({
+        path: "customerId.agentId", 
+        select: "name email role", 
+      });
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    // Return the populated order data
+    res.status(200).json({ order });
+  } catch (error) {
+    console.error("Error fetching single order:", error);
+    res.status(500).json({ message: "Internal server error", error });
+  }
+};
+
 
 module.exports = {
+  getSingleOrder,
   orderSubmit,
-  getCustomers,
   getUserOrders,
   getOrders,
   updateOrderStatus,

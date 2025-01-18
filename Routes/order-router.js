@@ -6,6 +6,7 @@ const authorizeRole = require('../Middlewares/authorizationMiddleware');
 
 router.post('/create-order', authenticateJWT, orderController.orderSubmit);
 router.get('/get-orders', authenticateJWT, authorizeRole('admin'), (orderController.getOrders));
+router.get('/get-single-order/:id', authenticateJWT, authorizeRole('admin'), (orderController.getSingleOrder));
 router.put('/update-order-status/:id', authenticateJWT, authorizeRole('admin'),orderController.updateOrderStatus);
 router.get('/get-customers', authenticateJWT, (orderController.getCustomers));
 router.get('/get-user-orders', authenticateJWT, orderController.getUserOrders);
