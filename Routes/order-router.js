@@ -11,5 +11,7 @@ router.put('/update-order-status/:id', authenticateJWT, authorizeRole('admin'),o
 router.get('/get-customers', authenticateJWT, (orderController.getCustomers));
 router.get('/get-user-orders', authenticateJWT, orderController.getUserOrders);
 router.get('/imei', authenticateJWT, orderController.getIMEINumbers);
+router.get('/fetch-data-by-unique-code/:code', authenticateJWT, orderController.getDataFromUniqueCode);
+
 
 module.exports = router;

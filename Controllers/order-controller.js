@@ -525,7 +525,7 @@ const getSingleOrder = async (req, res) => {
       .populate("customerId") 
       .populate("imeiNumbers") 
       .populate({
-        path: "customerId.agentId", 
+        path: "customerId.agentId",   
         select: "name email role", 
       });
     if (!order) {
@@ -540,6 +540,32 @@ const getSingleOrder = async (req, res) => {
   }
 };
 
+const getDataFromUniqueCode =  async (req, res) => {
+  try {
+    const { code } = req.params;
+    const order = await orderModel.findOne({ "carrierInfos.uniqueCode": code })
+      .populate("imeiNumbers")
+      .exec();
+
+    if (!order) {
+      return res.status(404).json({ message: "Data not found" });
+    }
+
+    // Prepare data to return
+    const data = {
+      accountFields: order.accounts, // You can modify to return specific fields
+      phoneNumbers: order.phoneNumbers,
+      shippingAddresses: order.shippingAddresses,
+    };
+
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
 
 module.exports = {
   getSingleOrder,
@@ -549,4 +575,5 @@ module.exports = {
   updateOrderStatus,
   getIMEINumbers,
   getCustomers,
+  getDataFromUniqueCode
 };
