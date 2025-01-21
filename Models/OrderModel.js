@@ -52,6 +52,21 @@ const OrderSchema = new Schema(
       type: String,
       enum: ["accepted", "expected"],
     },
+    phonemodel: {
+      type: String
+    },
+    imeistatus: {
+      type: String
+    },
+    noCracks: {
+      type: String
+    },
+    screenDefects: {
+      type: String
+    },
+    factoryReset: {
+      type: String
+    },
     paperless: {
       type: String,
       enum: ["accepted", "declined"],
