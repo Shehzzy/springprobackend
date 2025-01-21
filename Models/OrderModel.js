@@ -81,20 +81,20 @@ const OrderSchema = new Schema(
     ssnortaxid: {
       type: String,
     },
-    billingname: {
+    attentionname: {
       type: String,
     },
-    billingaddress: {
+    shippingaddress: {
       type: String,
     },
-    billingcity: {
+    shippingcity: {
       type: String,
     },
-    billingstate: {
+    shippingstate: {
       type: String,
       default: "",
     },
-    billingzip: {
+    shippingzip: {
       type: String,
     },
     authorizedname: {
