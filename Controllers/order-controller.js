@@ -1,3 +1,9 @@
+
+const orderModel = require("../Models/OrderModel");
+const imeiModel = require("../Models/imeiModel");
+const customerModel = require("../Models/CustomerModel"); // Import the Customer model
+const CustomerModel = require("../Models/CustomerModel");
+
 const orderSubmit = async (req, res) => {
   try {
     if (!req.body) {
