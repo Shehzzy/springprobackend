@@ -12,6 +12,7 @@ router.get('/get-customers', authenticateJWT, (orderController.getCustomers));
 router.get('/get-user-orders', authenticateJWT, orderController.getUserOrders);
 router.get('/imei', authenticateJWT, orderController.getIMEINumbers);
 router.get('/fetch-data-by-unique-code/:code', authenticateJWT, orderController.getDataFromUniqueCode);
+router.put('/update-order-notes/:id', authenticateJWT, orderController.updateOrderNotes);
 
 
 module.exports = router;
