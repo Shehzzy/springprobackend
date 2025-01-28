@@ -6,40 +6,40 @@
 //     userId: {
 //       type: Schema.Types.ObjectId,
 //       ref: "User ",
-//       required: true,
+//        
 //     },
 //     customerId: {
 //       type: Schema.Types.ObjectId,
 //       ref: "Customer",
-//       required: true,
+//        
 //     },
 //     name: {
 //       type: String,
-//       required: true,
+//        
 //     },
 //     email: {
 //       type: String,
-//       required: true,
+//        
 //     },
 //     phonenumber: {
 //       type: String,
-//       required: true,
+//        
 //     },
 //     agentCode: {
 //       type: String,
-//       required: true,
+//        
 //     },
 //     dealerCode: {
 //       type: String,
-//       required: true,
+//        
 //     },
 //     existingBAN: {
 //       type: String,
-//       required: true,
+//        
 //     },
 //     existingFAN: {
 //       type: String,
-//       required: true,
+//        
 //     },
 //     agreementtype: {
 //       type: String,
@@ -163,8 +163,8 @@ const Schema = mongoose.Schema;
 
 // Define the Shipping Address Schema
 const ShippingAddressSchema = new Schema({
-  attentionname: { type: String, required: true },
-  shippingaddress: { type: String, required: true },
+  attentionname: { type: String},
+  shippingaddress: { type: String},
   shippingcity: { type: String, required: true },
   shippingstate: { type: String, required: true },
   shippingzip: { type: String, required: true },
@@ -177,40 +177,40 @@ const OrderSchema = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User ",
-      required: true,
+       
     },
     customerId: {
       type: Schema.Types.ObjectId,
       ref: "Customer",
-      required: true,
+       
     },
     name: {
       type: String,
-      required: true,
+       
     },
     email: {
       type: String,
-      required: true,
+       
     },
     phonenumber: {
       type: String,
-      required: true,
+       
     },
     agentCode: {
       type: String,
-      required: true,
+       
     },
     dealerCode: {
       type: String,
-      required: true,
+       
     },
     existingBAN: {
       type: String,
-      required: true,
+       
     },
     existingFAN: {
       type: String,
-      required: true,
+       
     },
     agreementtype: {
       type: String,
