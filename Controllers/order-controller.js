@@ -496,7 +496,7 @@ const updateOrderStatus = async (req, res) => {
 // Fetch customers linked to the agent
 const getCustomers = async (req, res) => {
   try {
-    const customers = await CustomerModel.find({ agentId: req.user.userId });
+    const customers = await customerModel.find({ agentId: req.user.userId });
     return res.json({ message: "Here are customers", customers });
   } catch (error) {
     console.error("Error fetching customers:", error);
