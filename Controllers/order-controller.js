@@ -364,6 +364,7 @@
 const orderModel = require("../Models/OrderModel");
 const imeiModel = require("../Models/imeiModel");
 const customerModel = require("../Models/CustomerModel"); // Import the Customer model
+const ShippingAddress = require("../Models/ShippingAddressModel");
 
 // Order Creation API
 const orderSubmit = async (req, res) => {
@@ -427,6 +428,11 @@ const orderSubmit = async (req, res) => {
       shippingAddresses,
       phoneNumbers,
     });
+
+     // Create Shipping Addresses with the order reference
+     const shippingAddressesWithOrderId = shippingAddresses.map(address => ({ ...address, orderId: order._id }));
+     await ShippingAddress.insertMany(shippingAddressesWithOrderId);
+ 
 
     return res.status(201).json({ message: "Order created successfully", order });
   } catch (error) {

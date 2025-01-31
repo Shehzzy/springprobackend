@@ -168,8 +168,8 @@ const ShippingAddressSchema = new Schema({
   shippingstate: { type: String },
   shippingzip: { type: String },
   uniqueCode: { type: String },
+  orderId: { type: Schema.Types.ObjectId, ref: "Order" } // Link to Order
 });
-
 // Define the Order Schema
 const OrderSchema = new Schema(
   {
@@ -308,4 +308,6 @@ const OrderSchema = new Schema(
 
 const Order = mongoose.model("Order", OrderSchema);
 
-module.exports = Order;
+
+const ShippingAddress = mongoose.model("ShippingAddress", ShippingAddressSchema);
+module.exports = Order, ShippingAddress;
