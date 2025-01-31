@@ -81,6 +81,17 @@ const OrderSchema = new Schema(
         uniqueCode: { type: String },
       },
     ],
+
+    shippingAddresses: [
+      {
+        attentionname: { type: String },
+        shippingaddress: { type: String },
+        shippingcity: { type: String },
+        shippingstate: { type: String },
+        shippingzip: { type: String },
+        uniqueCode: { type: String },
+      },
+    ],
     accounts: [
       {
         accountNumber: { type: String },
@@ -97,7 +108,7 @@ const OrderSchema = new Schema(
       type: String,
       default: "Pending",
     },
-    shippingAddresses: { type: Map, of: String },
+    mappedRelations: { type: Map, of: String },
   },
   { timestamps: true }
 );

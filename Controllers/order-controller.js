@@ -470,8 +470,9 @@ const orderSubmit = async (req, res) => {
       imeiNumbers: allIMEIIds,
       carrierInfos,
       accounts: accountFields,
-      shippingAddresses: shippingAddressesMap, // Use the Map here
+      mappedRelations: shippingAddressesMap, // Use the Map here
       phoneNumbers,
+      shippingAddresses,
     });
 
     // Create Shipping Addresses with the order reference
