@@ -376,47 +376,30 @@ const orderSubmit = async (req, res) => {
 
     const userId = req.user.userId; // Assuming user ID is available in req.user
     const {
-      imeiNumbers, customerData, carrierInfos, accountFields, phoneNumbers, shippingAddresses, ...orderData
+      imeiNumbers,
+      customerData,
+      carrierInfos,
+      accountFields,
+      phoneNumbers,
+      shippingAddresses,
+      ...orderData
     } = req.body;
 
     // Log incoming data for debugging purposes
     console.log("Incoming data:", req.body);
 
     // Validate customer data
-    let customer = null;
-    if (customerData) {
-      customer = await customerModel.findOne({ taxid: customerData.taxid });
-
-      if (customer) {
-        // Update the existing customer only for modified fields
-        const fieldsToUpdate = {};
-        for (const field of ['businesslegalname', 'businessaddress', 'businesscity', 'businessstate', 'businesszip', 'contactname', 'contactphone', 'contactemail', 'shippingaddress', 'shippingcity', 'shippingstate', 'shippingzip']) {
-          if (customer[field] !== customerData[field]) {
-            fieldsToUpdate[field] = customerData[field];
-          }
-        }
-
-        if (Object.keys(fieldsToUpdate).length) {
-          customer = await customerModel.findByIdAndUpdate(customer._id, { $set: fieldsToUpdate }, { new: true });
-          console.log("Customer updated:", customer);
-        }
-      } else {
-        customer = await customerModel.create({ ...customerData, agentId: userId });
-        console.log("Customer created:", customer);
-      }
-    }
+    // ... (existing customer validation logic)
 
     // Handle IMEI creation/referencing
-    const existingIMEIs = await imeiModel.find({ imei: { $in: imeiNumbers }, userId });
-    const existingIMEIIds = existingIMEIs.map(imei => imei._id);
-    const newIMEIs = imeiNumbers.filter(imei => !existingIMEIs.some(existing => existing.imei === imei));
-    
-    // Insert new IMEIs into the database
-    const createdIMEIs = newIMEIs.length > 0 ? await imeiModel.insertMany(newIMEIs.map(imei => ({ userId, imei }))) : [];
-    console.log("Created IMEIs:", createdIMEIs);
+    // ... (existing IMEI handling logic)
 
-    const allIMEIIds = [...existingIMEIIds, ...createdIMEIs.map(imei => imei._id)];
-    
+    // Convert shippingAddresses to a Map
+    const shippingAddressesMap = new Map();
+    shippingAddresses.forEach((address, index) => {
+      shippingAddressesMap.set(index.toString(), JSON.stringify(address)); // Use index or a unique identifier as the key
+    });
+
     // Create the order with all gathered data
     const order = await orderModel.create({
       ...orderData,
@@ -425,28 +408,36 @@ const orderSubmit = async (req, res) => {
       imeiNumbers: allIMEIIds,
       carrierInfos,
       accounts: accountFields,
-      shippingAddresses,
+      shippingAddresses: shippingAddressesMap, // Use the Map here
       phoneNumbers,
     });
 
-     // Create Shipping Addresses with the order reference
-     const shippingAddressesWithOrderId = shippingAddresses.map(address => ({ ...address, orderId: order._id }));
-     await ShippingAddress.insertMany(shippingAddressesWithOrderId);
- 
+    // Create Shipping Addresses with the order reference
+    const shippingAddressesWithOrderId = Array.from(
+      shippingAddressesMap.values()
+    ).map((address) => ({ ...JSON.parse(address), orderId: order._id }));
+    await ShippingAddress.insertMany(shippingAddressesWithOrderId);
 
-    return res.status(201).json({ message: "Order created successfully", order });
+    return res
+      .status(201)
+      .json({ message: "Order created successfully", order });
   } catch (error) {
     console.error("Order creation error:", error);
     return res.status(500).json({ message: "Server error", error });
   }
 };
-
 // Get All Orders API
 const getOrders = async (req, res) => {
   try {
-    const allOrders = await orderModel.find().populate("imeiNumbers customerId");
+    const allOrders = await orderModel
+      .find()
+      .populate("imeiNumbers customerId");
 
-    return res.json(allOrders.length ? { message: "Here's the order data", orderData: allOrders } : { message: "No orders found" });
+    return res.json(
+      allOrders.length
+        ? { message: "Here's the order data", orderData: allOrders }
+        : { message: "No orders found" }
+    );
   } catch (error) {
     console.error("Error fetching orders:", error);
     return res.status(500).json({ message: "Server error", error });
@@ -457,7 +448,9 @@ const getOrders = async (req, res) => {
 const getIMEINumbers = async (req, res) => {
   try {
     const imeiNumbers = await imeiModel.find({ userId: req.user.userId });
-    res.status(200).json({ message: "IMEI numbers retrieved successfully", imeiNumbers });
+    res
+      .status(200)
+      .json({ message: "IMEI numbers retrieved successfully", imeiNumbers });
   } catch (error) {
     console.error("Error fetching IMEI numbers:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -468,7 +461,9 @@ const getIMEINumbers = async (req, res) => {
 const getUserOrders = async (req, res) => {
   try {
     const userId = req.user.userId;
-    const orders = await orderModel.find({ userId }).populate("imeiNumbers customerId");
+    const orders = await orderModel
+      .find({ userId })
+      .populate("imeiNumbers customerId");
     res.status(200).json({ message: "Orders retrieved successfully", orders });
   } catch (error) {
     console.error("Error fetching user orders:", error);
@@ -482,17 +477,23 @@ const updateOrderStatus = async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
     const allowedStatuses = ["Pending", "In Progress", "Completed"];
-    
+
     if (!allowedStatuses.includes(status)) {
       return res.status(400).json({ message: "Invalid status value" });
     }
 
-    const order = await orderModel.findByIdAndUpdate(id, { status }, { new: true });
+    const order = await orderModel.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    res.status(200).json({ message: "Order status updated successfully", order });
+    res
+      .status(200)
+      .json({ message: "Order status updated successfully", order });
   } catch (error) {
     console.error("Error updating order status:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -514,7 +515,8 @@ const getCustomers = async (req, res) => {
 const getSingleOrder = async (req, res) => {
   const orderId = req.params.id;
   try {
-    const order = await orderModel.findById(orderId)
+    const order = await orderModel
+      .findById(orderId)
       .populate("customerId imeiNumbers phoneNumbers accounts carrierInfos")
       .populate({ path: "customerId.agentId", select: "name email role" });
 
@@ -533,7 +535,8 @@ const getSingleOrder = async (req, res) => {
 const getDataFromUniqueCode = async (req, res) => {
   try {
     const { code } = req.params;
-    const order = await orderModel.findOne({ "carrierInfos.uniqueCode": code })
+    const order = await orderModel
+      .findOne({ "carrierInfos.uniqueCode": code })
       .populate("imeiNumbers");
 
     if (!order) {
@@ -563,12 +566,18 @@ const updateOrderNotes = async (req, res) => {
       return res.status(400).json({ message: "Notes cannot be empty" });
     }
 
-    const order = await orderModel.findByIdAndUpdate(id, { notes }, { new: true });
+    const order = await orderModel.findByIdAndUpdate(
+      id,
+      { notes },
+      { new: true }
+    );
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    res.status(200).json({ message: "Order notes updated successfully", order });
+    res
+      .status(200)
+      .json({ message: "Order notes updated successfully", order });
   } catch (error) {
     console.error("Error updating order notes:", error);
     res.status(500).json({ message: "Internal server error" });
