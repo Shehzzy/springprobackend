@@ -134,14 +134,14 @@
 //     // New fields for IMEI modal
 //     accounts: [
 //       {
-//         accountNumber: { type: String,   },
-//         portOutPin: { type: String,   },
+//         accountNumber: { type: String  },
+//         portOutPin: { type: String  },
 //       },
 //     ],
 //     phoneNumbers: [
 //       {
-//         phoneNumber: { type: String,   },
-//         carrier: { type: String,   },
+//         phoneNumber: { type: String  },
+//         carrier: { type: String  },
 //       },
 //     ],
 //     status: {
@@ -165,9 +165,9 @@ const Schema = mongoose.Schema;
 const ShippingAddressSchema = new Schema({
   attentionname: { type: String},
   shippingaddress: { type: String},
-  shippingcity: { type: String,   },
-  shippingstate: { type: String,   },
-  shippingzip: { type: String,   },
+  shippingcity: { type: String  },
+  shippingstate: { type: String  },
+  shippingzip: { type: String  },
   uniqueCode: { type: String }, 
 });
 
@@ -285,14 +285,14 @@ const OrderSchema = new Schema(
     ],
     accounts: [
       {
-        accountNumber: { type: String,   },
-        portOutPin: { type: String,   },
+        accountNumber: { type: String  },
+        portOutPin: { type: String  },
       },
     ],
     phoneNumbers: [
       {
-        phoneNumber: { type: String,   },
-        carrier: { type: String,   },
+        phoneNumber: { type: String  },
+        carrier: { type: String  },
       },
     ],
     status: {
