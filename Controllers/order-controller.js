@@ -1,9 +1,7 @@
-
 const orderModel = require("../Models/OrderModel");
 const imeiModel = require("../Models/imeiModel");
 const customerModel = require("../Models/CustomerModel"); // Import the Customer model
 const CustomerModel = require("../Models/CustomerModel");
-
 
 // Order Creation API
 const orderSubmit = async (req, res) => {
@@ -26,14 +24,14 @@ const orderSubmit = async (req, res) => {
     console.log(accountFields, "Account fields are here");
     console.log(customerData, "Customer Data is here");
 
-    // Validate IMEI numbers
-    if (
-      !imeiNumbers ||
-      !Array.isArray(imeiNumbers) ||
-      imeiNumbers.length === 0
-    ) {
-      return res.status(400).json({ message: "IMEI numbers are required" });
-    }
+    // Remove IMEI validation
+    // if (
+    //   !imeiNumbers ||
+    //   !Array.isArray(imeiNumbers) ||
+    //   imeiNumbers.length === 0
+    // ) {
+    //   return res.status(400).json({ message: "IMEI numbers are required" });
+    // }
 
     // Check if customerData is provided
     let customer = null;
@@ -148,7 +146,6 @@ const orderSubmit = async (req, res) => {
     return res.status(500).json({ message: "Server error", error });
   }
 };
-
 // Get All Orders API
 const getOrders = async (req, res) => {
   try {
@@ -247,11 +244,11 @@ const getCustomers = async (req, res) => {
 //   try {
 //     const order = await orderModel
 //       .findById(orderId)
-//       .populate("customerId") 
-//       .populate("imeiNumbers") 
+//       .populate("customerId")
+//       .populate("imeiNumbers")
 //       .populate({
-//         path: "customerId.agentId",   
-//         select: "name email role", 
+//         path: "customerId.agentId",
+//         select: "name email role",
 //       });
 //     if (!order) {
 //       return res.status(404).json({ message: "Order not found" });
@@ -265,7 +262,6 @@ const getCustomers = async (req, res) => {
 //   }
 // };
 
-
 // get single order API
 
 const getSingleOrder = async (req, res) => {
@@ -276,9 +272,9 @@ const getSingleOrder = async (req, res) => {
       .findById(orderId)
       .populate("customerId")
       .populate("imeiNumbers")
-      .populate("phoneNumbers")  // Add this to populate phoneNumbers if it's a reference
-      .populate("accounts")  // Same for accounts
-      .populate("carrierInfos")  // Same for carrierInfos
+      .populate("phoneNumbers") // Add this to populate phoneNumbers if it's a reference
+      .populate("accounts") // Same for accounts
+      .populate("carrierInfos") // Same for carrierInfos
       .populate({
         path: "customerId.agentId",
         select: "name email role",
@@ -296,11 +292,11 @@ const getSingleOrder = async (req, res) => {
   }
 };
 
-
 const getDataFromUniqueCode = async (req, res) => {
   try {
     const { code } = req.params;
-    const order = await orderModel.findOne({ "carrierInfos.uniqueCode": code })
+    const order = await orderModel
+      .findOne({ "carrierInfos.uniqueCode": code })
       .populate("imeiNumbers")
       .exec();
 
@@ -354,9 +350,6 @@ const updateOrderNotes = async (req, res) => {
   }
 };
 
-
-
-
 module.exports = {
   getSingleOrder,
   orderSubmit,
@@ -366,5 +359,5 @@ module.exports = {
   getIMEINumbers,
   getCustomers,
   getDataFromUniqueCode,
-  updateOrderNotes
+  updateOrderNotes,
 };
