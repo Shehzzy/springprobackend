@@ -6,40 +6,40 @@
 //     userId: {
 //       type: Schema.Types.ObjectId,
 //       ref: "User ",
-//        
+//
 //     },
 //     customerId: {
 //       type: Schema.Types.ObjectId,
 //       ref: "Customer",
-//        
+//
 //     },
 //     name: {
 //       type: String,
-//        
+//
 //     },
 //     email: {
 //       type: String,
-//        
+//
 //     },
 //     phonenumber: {
 //       type: String,
-//        
+//
 //     },
 //     agentCode: {
 //       type: String,
-//        
+//
 //     },
 //     dealerCode: {
 //       type: String,
-//        
+//
 //     },
 //     existingBAN: {
 //       type: String,
-//        
+//
 //     },
 //     existingFAN: {
 //       type: String,
-//        
+//
 //     },
 //     agreementtype: {
 //       type: String,
@@ -157,18 +157,17 @@
 
 // module.exports = Order;
 
-
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Define the Shipping Address Schema
 const ShippingAddressSchema = new Schema({
-  attentionname: { type: String},
-  shippingaddress: { type: String},
-  shippingcity: { type: String  },
-  shippingstate: { type: String  },
-  shippingzip: { type: String  },
-  uniqueCode: { type: String }, 
+  attentionname: { type: String },
+  shippingaddress: { type: String },
+  shippingcity: { type: String },
+  shippingstate: { type: String },
+  shippingzip: { type: String },
+  uniqueCode: { type: String },
 });
 
 // Define the Order Schema
@@ -177,40 +176,31 @@ const OrderSchema = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User ",
-       
     },
     customerId: {
       type: Schema.Types.ObjectId,
       ref: "Customer",
-       
     },
     name: {
       type: String,
-       
     },
     email: {
       type: String,
-       
     },
     phonenumber: {
       type: String,
-       
     },
     agentCode: {
       type: String,
-       
     },
     dealerCode: {
       type: String,
-       
     },
     existingBAN: {
       type: String,
-       
     },
     existingFAN: {
       type: String,
-       
     },
     agreementtype: {
       type: String,
@@ -221,7 +211,7 @@ const OrderSchema = new Schema(
     },
     promotion: {
       type: String,
-      enum: ["accepted", "expected"],
+      enum: ["accepted", "declined"],
     },
     phonemodel: {
       type: String,
@@ -247,7 +237,19 @@ const OrderSchema = new Schema(
     },
     ratePlan: {
       type: String,
-      enum: ["basic", "premium", "unlimited"],
+      enum: [
+        "UYW 2.0 Advanced",
+        "UYW 2.0 Premium",
+        "Turnkey BYOD",
+        "Turnkey Standard",
+        "Turnkey Premium",
+        "Unlimited Tablet",
+        "Unlimited Watch",
+        "AWB / Hotspot Core",
+        "AWB / Hotspot Pro",
+        "AWB / Hotspot Ultra",
+        "AT&T Internet Air",
+      ],
     },
     smartphoneDetails: {
       brand: { type: String },
@@ -285,14 +287,14 @@ const OrderSchema = new Schema(
     ],
     accounts: [
       {
-        accountNumber: { type: String  },
-        portOutPin: { type: String  },
+        accountNumber: { type: String },
+        portOutPin: { type: String },
       },
     ],
     phoneNumbers: [
       {
-        phoneNumber: { type: String  },
-        carrier: { type: String  },
+        phoneNumber: { type: String },
+        carrier: { type: String },
       },
     ],
     status: {
