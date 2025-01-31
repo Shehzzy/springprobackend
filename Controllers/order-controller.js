@@ -475,9 +475,12 @@ const orderSubmit = async (req, res) => {
     });
 
     // Create Shipping Addresses with the order reference
-    const shippingAddressesWithOrderId = Array.from(
-      shippingAddressesMap.values()
-    ).map((address) => ({ ...JSON.parse(address), orderId: order._id }));
+    // Assuming shippingAddresses is an array of objects
+    const shippingAddressesWithOrderId = shippingAddresses.map((address) => ({
+      ...address,
+      orderId: order._id,
+    }));
+
     await ShippingAddress.insertMany(shippingAddressesWithOrderId);
 
     return res
