@@ -578,24 +578,24 @@ const getCustomers = async (req, res) => {
 };
 
 // Get a single order by ID
-const getSingleOrder = async (req, res) => {
-  const orderId = req.params.id;
-  try {
-    const order = await orderModel
-      .findById(orderId)
-      .populate("customerId imeiNumbers phoneNumbers accounts carrierInfos")
-      .populate({ path: "customerId.agentId", select: "name email role" });
+  const getSingleOrder = async (req, res) => {
+    const orderId = req.params.id;
+    try {
+      const order = await orderModel
+        .findById(orderId)
+        .populate("customerId imeiNumbers phoneNumbers accounts carrierInfos")
+        .populate({ path: "customerId.agentId", select: "name email role" });
 
-    if (!order) {
-      return res.status(404).json({ message: "Order not found" });
+      if (!order) {
+        return res.status(404).json({ message: "Order not found" });
+      }
+
+      res.status(200).json({ order });
+    } catch (error) {
+      console.error("Error fetching single order:", error);
+      res.status(500).json({ message: "Internal server error", error });
     }
-
-    res.status(200).json({ order });
-  } catch (error) {
-    console.error("Error fetching single order:", error);
-    res.status(500).json({ message: "Internal server error", error });
-  }
-};
+  };
 
 // Fetch data by unique code
 const getDataFromUniqueCode = async (req, res) => {

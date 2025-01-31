@@ -82,7 +82,7 @@ const OrderSchema = new Schema(
       },
     ],
 
-    shippingAddresses: [
+    shippingAddresses:  [
       {
         attentionname: { type: String },
         shippingaddress: { type: String },
