@@ -18,7 +18,7 @@
       cardNumber: { type: String },
       cardExpiry: { type: String },
       cardCVC: { type: String },
-      singleormultiaddresshipment: { type: String, enum: ["yes", "no"] },
+      // singleormultiaddresshipment: { type: String, enum: ["yes", "no"] },
       attentionname: { type: String },
       shippingaddress: { type: String },
       shippingcity: { type: String },
