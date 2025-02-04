@@ -82,7 +82,7 @@ const OrderSchema = new Schema(
       },
     ],
 
-    shippingAddresses:  [
+    shippingAddresses: [
       {
         attentionname: { type: String },
         shippingaddress: { type: String },
@@ -104,6 +104,17 @@ const OrderSchema = new Schema(
         carrier: { type: String },
       },
     ],
+    tradeSmartphone: {
+      type: String
+    }
+    ,
+    buyPhoneNumber: {
+      type: String
+    }
+    ,
+    phoneUniqueCode: {
+      type: String
+    },
     status: {
       type: String,
       default: "Pending",
