@@ -105,11 +105,11 @@ const OrderSchema = new Schema(
       },
     ],
     tradeSmartphone: {
-      type: String
+      type: Boolean
     }
     ,
     buyPhoneNumber: {
-      type: String
+      type: Boolean
     }
     ,
     phoneUniqueCode: {
