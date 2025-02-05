@@ -382,9 +382,6 @@ const orderSubmit = async (req, res) => {
       accountFields,
       phoneNumbers,
       shippingAddresses,
-      tradeSmartphone,
-      buyPhoneNumber,
-      phoneUniqueCode,
       ...orderData
     } = req.body;
 
