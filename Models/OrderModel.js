@@ -115,6 +115,9 @@ const OrderSchema = new Schema(
     phoneUniqueCode: {
       type: String
     },
+    promoCode: {
+      type: String
+    },
     status: {
       type: String,
       default: "Pending",
