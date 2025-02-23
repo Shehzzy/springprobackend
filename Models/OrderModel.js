@@ -20,6 +20,7 @@ const OrderSchema = new Schema(
     dealerCode: { type: String },
     existingBAN: { type: String },
     existingFAN: { type: String },
+    companyname: { type: String },
     agreementtype: {
       type: String,
       enum: ["amb", "acda"],
