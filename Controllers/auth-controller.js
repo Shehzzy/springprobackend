@@ -9,12 +9,16 @@ const UserModel = require("../Models/UserModel");
 
 const register = async (req, res) => {
   try {
-    const { fullName, email, password, role } = req.body;
+    const { fname, lname, phone, ssn, tax_id, companyname, government_identification, dob,
+      email, password, role } = req.body;
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.json({ message: "User already exists" });
     }
-    const userCreate = await User.create({ fullName, email, password, role });
+    const userCreate = await User.create({
+      fname, lname, phone, ssn, dob,
+      tax_id, companyname, government_identification, email, password, role
+    });
     const token = jwt.sign(
       {
         userId: userCreate._id,
@@ -77,4 +81,4 @@ const getUsers = async (req, res) => {
 
 
 // Get All Orders API
-module.exports = { register, login, getUsers};
+module.exports = { register, login, getUsers };

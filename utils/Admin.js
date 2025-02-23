@@ -11,7 +11,14 @@ const createDefaultAdmin = async () => {
 
     if (!existingAdmin) {
       const adminUser = new userModel({
-        fullName: "Super Admin",
+        fname: "Super",
+        lname: "Admin",
+        phone: "1234567890",
+        dob: "01/01/2000",
+        ssn: "123456789",
+        tax_id: "123456789",
+        companyname: "Admin Company",
+        government_identification: "123456789",
         email: adminEmail,
         password: adminPassword,
         role: "admin",
