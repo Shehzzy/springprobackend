@@ -130,7 +130,7 @@ const OrderSchema = new Schema(
         portOutPin: { type: String },
         phoneNumber: { type: String },
         carrier: { type: String },
-        imei: { type: Schema.Types.ObjectId, ref: "IMEI" },
+        imei: { type: String },
         shippingAddress: {
           attentionName: { type: String },
           address: { type: String },
