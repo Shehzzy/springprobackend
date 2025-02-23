@@ -123,6 +123,22 @@ const OrderSchema = new Schema(
       default: "Pending",
     },
     mappedRelations: { type: Map, of: String },
+    lines: [
+      {
+        accountNumber: { type: String },
+        portOutPin: { type: String },
+        phoneNumber: { type: String },
+        carrier: { type: String },
+        imei: { type: Schema.Types.ObjectId, ref: "IMEI" },
+        shippingAddress: {
+          attentionName: { type: String },
+          address: { type: String },
+          city: { type: String },
+          state: { type: String },
+          zip: { type: String },
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

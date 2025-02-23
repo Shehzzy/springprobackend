@@ -382,6 +382,7 @@ const orderSubmit = async (req, res) => {
       accountFields,
       phoneNumbers,
       shippingAddresses,
+      lines,
       ...orderData
     } = req.body;
 
@@ -473,6 +474,7 @@ const orderSubmit = async (req, res) => {
       mappedRelations: shippingAddressesMap, // Use the Map here
       phoneNumbers,
       shippingAddresses,
+      lines
     });
 
     // Create Shipping Addresses with the order reference
