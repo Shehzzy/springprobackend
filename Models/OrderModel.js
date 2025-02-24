@@ -15,7 +15,7 @@ const OrderSchema = new Schema(
     },
     name: { type: String },
     email: { type: String },
-    phonenumber: { type: String },
+    // phonenumber: { type: String },
     agentCode: { type: String },
     dealerCode: { type: String },
     existingBAN: { type: String },
