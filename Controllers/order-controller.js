@@ -499,12 +499,13 @@ const getOrders = async (req, res) => {
   try {
     const allOrders = await orderModel
       .find()
-      .populate("imeiNumbers customerId");
+      .populate("customerId imeiNumbers phoneNumbers accounts carrierInfos userId", "fname lname email role") // Populate all necessary fields in one call
+      .populate({ path: "userId", select: "fname lname email role" }); // Populate userId with specific fields
 
     return res.json(
       allOrders.length
         ? { message: "Here's the order data", orderData: allOrders }
-        : { message: "No orders found" }
+        : { message: "No orders found", orderData: [] } // Ensure orderData is always present
     );
   } catch (error) {
     console.error("Error fetching orders:", error);
