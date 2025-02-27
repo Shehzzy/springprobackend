@@ -26,10 +26,10 @@ const OrderSchema = new Schema(
       enum: ["amb", "acda"],
     },
     eip: { type: String },
-    promotion: {
-      type: String,
-      enum: ["accepted", "declined"],
-    },
+    // promotion: {
+    //   type: String,
+    //   enum: ["accepted", "declined"],
+    // },
     phonemodel: { type: String },
     imeistatus: { type: String },
     noCracks: { type: String },
