@@ -13,8 +13,8 @@ const OrderSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Customer",
     },
-    name: { type: String },
-    email: { type: String },
+    // name: { type: String },
+    // email: { type: String },
     sansPartnerID: { type: String },
     agreementtype: {
       type: String,
@@ -22,7 +22,7 @@ const OrderSchema = new Schema(
     },
     atntaccount : { type: String },
     existingBAN: { type: String },
-    existingFAN: { type: String },
+    // existingFAN: { type: String },
     companyname: { type: String },
     eip: { type: String },
     // promotion: {
