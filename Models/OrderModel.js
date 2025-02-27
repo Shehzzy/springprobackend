@@ -20,7 +20,7 @@ const OrderSchema = new Schema(
       type: String,
       enum: ["amb", "acda"],
     },
-    atntaccount : { type: String },
+    atntaccount: { type: String },
     existingBAN: { type: String },
     // existingFAN: { type: String },
     companyname: { type: String },
@@ -94,8 +94,12 @@ const OrderSchema = new Schema(
     ],
     accounts: [
       {
-        accountNumber: { type: String },
-        portOutPin: { type: String },
+        accountNumber: { type: String, required: true },
+        portOutPin: { type: String, required: true },
+        phoneNumber: { type: String, required: true },
+        carrier: { type: String, required: true },
+        imei: { type: String, required: true },
+        shippingAddress: { type: String, required: true },
       },
     ],
     phoneNumbers: [
