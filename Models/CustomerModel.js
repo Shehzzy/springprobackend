@@ -9,31 +9,23 @@ const CustomerSchema = new mongoose.Schema(
     businessstate: { type: String },
     businesszip: { type: String },
     taxid: { type: String },
+    existingBAN: { type: String },
     contactname: { type: String },
     contactphone: { type: String },
     contactemail: { type: String },
     locationid: { type: String },
     billtomobile: { type: String, enum: ["yes", "no"] },
-    creditcardpayment: { type: String, enum: ["yes", "no"] }, // Whether autopay is selected
-
-    // New fields for payment method selection
+    creditcardpayment: { type: String, enum: ["yes", "no"] }, 
     paymentMethod: { type: String, enum: ["select", "checkingAccount", "debitCreditCard"], default: "select" },
-
-    // Checking Account Information
     accountHolderName: { type: String },
     routingNumber: { type: String },
     checkingAccountNumber: { type: String },
-
-    // Credit Card Information
     cardHolderName: { type: String },
     cardNumber: { type: String },
     cardExpiry: { type: String },
     cardCVC: { type: String },
     cardBillingAddress: { type: String },
     cardType: { type: String },
-    // Same billing address autofill logic
-    // sameAsCardAddress: { type: Boolean, default: false },
-
     attentionname: { type: String },
     shippingaddress: { type: String },
     shippingcity: { type: String },
@@ -42,8 +34,8 @@ const CustomerSchema = new mongoose.Schema(
 
     agentId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // This references the User (Agent) model
-      default: null, // Set to null initially if not assigned
+      ref: "User", 
+      default: null, 
     },
   },
   { timestamps: true }
