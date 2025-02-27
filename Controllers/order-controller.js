@@ -585,8 +585,9 @@ const getSingleOrder = async (req, res) => {
   try {
     const order = await orderModel
       .findById(orderId)
-      .populate("customerId imeiNumbers phoneNumbers accounts carrierInfos")
-      .populate({ path: "customerId.agentId", select: "fname lname email role phone" });
+      .populate("customerId imeiNumbers phoneNumbers accounts carrierInfos userId")
+      .populate({ path: "userId", select: "fname lname email role" }) // Populate userId with specific fields
+      .populate({ path: "customerId.agentId", select: "name email role" });
 
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
