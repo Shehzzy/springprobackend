@@ -33,7 +33,7 @@ const CustomerSchema = new mongoose.Schema(
     shippingzip: { type: String },
 
     agentId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId, 
       ref: "User", 
       default: null, 
     },
