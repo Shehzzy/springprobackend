@@ -94,12 +94,18 @@ const OrderSchema = new Schema(
     ],
     accounts: [
       {
-        accountNumber: { type: String, required: true },
-        portOutPin: { type: String, required: true },
-        phoneNumber: { type: String, required: true },
-        carrier: { type: String, required: true },
-        imei: { type: String, required: true },
-        shippingAddress: { type: String, required: true },
+        accountNumber: { type: String },
+        portOutPin: { type: String},
+        phoneNumber: { type: String },
+        carrier: { type: String},
+        imei: { type: String},
+        shippingAddress: {
+          attentionName: { type: String },
+          address: { type: String },
+          city: { type: String },
+          state: { type: String },
+          zip: { type: String },
+        },
       },
     ],
     phoneNumbers: [

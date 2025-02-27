@@ -470,11 +470,11 @@ const orderSubmit = async (req, res) => {
       customerId: customer ? customer._id : null, // Now customer is always defined
       imeiNumbers: allIMEIIds,
       carrierInfos,
+      // IMEI Data stored in accounts array in order model
       accounts: accountFields,
       mappedRelations: shippingAddressesMap, // Use the Map here
       phoneNumbers,
       shippingAddresses,
-      lines
     });
 
     // Create Shipping Addresses with the order reference
