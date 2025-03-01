@@ -94,11 +94,14 @@ const OrderSchema = new Schema(
     ],
     accounts: [
       {
-        accountNumber: { type: String },
-        portOutPin: { type: String},
+        // accountNumber: { type: String },
+        portOutPin: { type: String },
         phoneNumber: { type: String },
-        carrier: { type: String},
-        imei: { type: String},
+        carrier: { type: String },
+        imei: { type: String },
+        buyPhoneNumber: { type: Boolean, default: false }, // Already added
+        tradeSmartphone: { type: Boolean, default: false }, // <-- Added this
+        purchaseSmartphone: { type: Boolean, default: false }, // <-- Added this
         shippingAddress: {
           attentionName: { type: String },
           address: { type: String },
