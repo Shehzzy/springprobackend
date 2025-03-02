@@ -3,6 +3,7 @@ const imeiModel = require("../Models/imeiModel");
 const customerModel = require("../Models/CustomerModel"); // Import the Customer model
 const ShippingAddress = require("../Models/ShippingAddressModel");
 const tac_database = require('../utils/tac_database.json')
+const Tac = require("../Models/tacModel");
 
 // Order Creation API
 const orderSubmit = async (req, res) => {
@@ -293,22 +294,26 @@ const updateOrderNotes = async (req, res) => {
 };
 
 // ENDPOINT TO LOOKUP TAC IN DATABASE
-const fetchTac = async (req, res) => {
 
+const fetchTac = async (req, res) => {
   try {
-    const tac = req.params.tac.toString(); 
-    const device = tac_database.find(d => d.tac_number == tac);
+    const tac = req.params.tac.toString(); // Ensure it's a string
+
+    // Query MongoDB for the TAC number
+    const device = await Tac.findOne({ tac_number: tac });
+
     if (device) {
       return res.json({ message: "Device found", device });
-    }
-    else {
-      return res.json({ message: "Device not found" });
+    } else {
+      return res.status(404).json({ message: "Device not found" });
     }
   } catch (error) {
     console.error("Error fetching TAC:", error);
     res.status(500).json({ message: "Internal server error" });
   }
-}
+};
+
+
 
 module.exports = {
   getSingleOrder,
