@@ -80,10 +80,10 @@ const login = async (req, res) => {
       return res.json({ message: "Invalid credentials" });
     }
 
-
+    const userStatus = user.isEnabled;
     // Check if user is enabled or disabled
     if (!user.isEnabled) {
-      return res.status(403).json({ message: "Account not activated. Contact admin." });
+      return res.status(403).json({ message: "Account not activated. Contact admin.", userStatus });
     }
 
     const token = jwt.sign(
