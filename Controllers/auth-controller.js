@@ -134,7 +134,6 @@ const enableDisableUser = async (req, res) => {
   }
 };
 
-module.exports = { enableUser };
 
 
 // Get All Orders API
