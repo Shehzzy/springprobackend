@@ -48,6 +48,10 @@ const userSchema = new Schema({
     enum: ["user", "admin"],
     default: "user",
   },
+  isEnabled:{
+    type: Boolean,
+    default: false
+  }
 });
 
 userSchema.pre("save", async function (next) {

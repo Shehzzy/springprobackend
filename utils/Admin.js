@@ -22,6 +22,7 @@ const createDefaultAdmin = async () => {
         email: adminEmail,
         password: adminPassword,
         role: "admin",
+        isEnabled: true
       });
       await adminUser.save();
       console.log("Default admin created:", adminEmail);

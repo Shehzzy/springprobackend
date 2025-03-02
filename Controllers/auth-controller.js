@@ -1,6 +1,7 @@
 const orderModel = require("../Models/OrderModel");
 var User = require("../Models/UserModel");
 var jwt = require("jsonwebtoken");
+const nodemailer = require('nodemailer');
 const UserModel = require("../Models/UserModel");
 
 
@@ -19,6 +20,33 @@ const register = async (req, res) => {
       fname, lname, phone, ssn, dob,
       tax_id, companyname, government_identification, email, password, role
     });
+
+
+     // Send Email Notification to Admin
+     const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+      }
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: process.env.PORTAL_EMAIL, // Admin Email
+      subject: "New User Registration Pending Approval",
+      text: `A new user (${email}) has signed up. Please review and enable access in the admin panel.`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log("Error sending email:", error);
+      } else {
+        console.log("Email sent:", info.response);
+      }
+    });
+
+
     const token = jwt.sign(
       {
         userId: userCreate._id,
@@ -52,6 +80,12 @@ const login = async (req, res) => {
       return res.json({ message: "Invalid credentials" });
     }
 
+
+    // Check if user is enabled or disabled
+    if (!user.isEnabled) {
+      return res.status(403).json({ message: "Account not activated. Contact admin." });
+    }
+
     const token = jwt.sign(
       { userId: user._id, email: user.email, role: user.role },
       process.env.JWT_SECRET,
@@ -79,6 +113,29 @@ const getUsers = async (req, res) => {
   }
 };
 
+// ENABLE, DISABLE USER API
+
+const enableDisableUser = async (req, res) => {
+  try {
+    const { userId, isEnabled } = req.body;
+    
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.isEnabled = isEnabled;
+    await user.save();
+
+    return res.status(200).json({ message: `User ${isEnabled ? "enabled" : "disabled"} successfully.` });
+
+  } catch (error) {
+    return res.status(500).json({ message: "Server error", error });
+  }
+};
+
+module.exports = { enableUser };
+
 
 // Get All Orders API
-module.exports = { register, login, getUsers };
+module.exports = { register, login, getUsers, enableDisableUser };
