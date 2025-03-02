@@ -4,44 +4,44 @@ const bcrypt = require("bcryptjs");
 const userSchema = new Schema({
   fname: {
     type: String,
-    required: true,
+     
   },
   lname: {
     type: String,
-    required: true,
+     
   },
   companyname: {
     type: String,
-    required: true,
+     
   },
   phone: {
     type: String,
-    required: true,
+     
   },
   dob: {
     type: String,
-    required: true,
+     
   },
   ssn: {
     type: String,
-    required: true,
+     
   },
   tax_id: {
     type: String,
-    required: true,
+     
   },
   government_identification: {
     type: String,
-    required: true,
+     
   },
   email: {
     type: String,
-    required: true,
+     
     unique: true,
   },
   password: {
     type: String,
-    required: true,
+     
   },
   role: {
     type: String,
