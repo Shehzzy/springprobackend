@@ -296,7 +296,7 @@ const updateOrderNotes = async (req, res) => {
 const fetchTac = async (req, res) => {
 
   try {
-    const tac = req.params.tac;
+    const tac = req.params.tac.toString(); 
     const device = tac_database.find(d => d.tac_number === tac);
     if (device) {
       return res.json({ message: "Device found", device });
