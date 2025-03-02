@@ -294,21 +294,26 @@ const updateOrderNotes = async (req, res) => {
 
 // ENDPOINT TO LOOKUP TAC IN DATABASE
 const fetchTac = async (req, res) => {
-
   try {
     const tac = req.params.tac.toString(); 
-    const device = tac_database.find(d => d.tac_number === tac);
+
+    const jsonDB = JSON.stringify(tac_database, null, 2);
+    console.log("Received TAC:", tac);
+    console.log("Loaded tac_database:", jsonDB);
+    const device = tac_database.find(d => d.tac_number.toString() === tac);
+    console.log("✅ Device Found:", device);
+
     if (device) {
       return res.json({ message: "Device found", device });
-    }
-    else {
-      return res.json({ message: "Device not found" });
+    } else {
+      return res.status(404).json({ message: "Device not found", jsonDB });
     }
   } catch (error) {
-    console.error("Error fetching TAC:", error);
+    console.error("❌ Error fetching TAC:", error);
     res.status(500).json({ message: "Internal server error" });
   }
-}
+};
+
 
 module.exports = {
   getSingleOrder,
