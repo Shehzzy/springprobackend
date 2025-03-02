@@ -6,7 +6,6 @@ require("./utils/connection.js");
 var authRouter = require("./Routes/auth-router.js");
 var orderRouter = require("./Routes/order-router.js");
 var app = express();
-app.use(bodyParser.json());
 
 app.use(
   cors({
@@ -19,6 +18,7 @@ app.use(
 
 app.options("*", cors()); // Ensure OPTIONS requests are also handled
 
+app.use(bodyParser.json());
 app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/order", orderRouter);
