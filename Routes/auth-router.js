@@ -7,7 +7,7 @@ const authorizeRole = require('../Middlewares/authorizationMiddleware');
 router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.get('/get-users', authenticateJWT, authorizeRole('admin'), (authController.getUsers));
-router.post('/change-status-of-user', authenticateJWT, authorizeRole('admin'), (authController.enableDisableUser));
+router.put('/enable-disable-user', authenticateJWT, authorizeRole('admin'), (authController.enableDisableUser));
 
 
 
