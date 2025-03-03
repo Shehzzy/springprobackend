@@ -135,7 +135,12 @@ const enableDisableUser = async (req, res) => {
   }
 };
 
+// Check Status API = practically no use since middleware won't even hit this API if user is disabled.
+
+const checkStatus = async (req, res)  => {
+  return res.json({message:"Checking Status"});
+}
 
 
 // Get All Orders API
-module.exports = { register, login, getUsers, enableDisableUser };
+module.exports = { register, login, getUsers, enableDisableUser, checkStatus };
