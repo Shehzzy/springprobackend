@@ -22,20 +22,67 @@ const register = async (req, res) => {
     });
 
 
-     // Send Email Notification to Admin
-     const transporter = nodemailer.createTransport({
+    // Send Email Notification to Admin
+    //  const transporter = nodemailer.createTransport({
+    //   service: "gmail",
+    //   auth: {
+    //     user: process.env.EMAIL_USER,
+    //     pass: process.env.EMAIL_PASS
+    //   }
+    // });
+
+    // const mailOptions = {
+    //   from: process.env.EMAIL_USER,
+    //   to: process.env.PORTAL_EMAIL, // Admin Email
+    //   subject: "New User Registration Pending Approval",
+    //   text: `A new user (${email}) has signed up. Please review and enable access in the admin panel.`
+    // };
+
+    // transporter.sendMail(mailOptions, (error, info) => {
+    //   if (error) {
+    //     console.log("Error sending email:", error);
+    //   } else {
+    //     console.log("Email sent:", info.response);
+    //   }
+    // });
+
+    // Stylish email
+    const nodemailer = require("nodemailer");
+
+    const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
+        pass: process.env.EMAIL_PASS,
+      },
     });
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: process.env.PORTAL_EMAIL, // Admin Email
       subject: "New User Registration Pending Approval",
-      text: `A new user (${email}) has signed up. Please review and enable access in the admin panel.`
+      html: `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 12px; padding: 20px; background-color: #f8f9fa; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);">
+      <div style="text-align: center;">
+        <img src="https://res.cloudinary.com/dprwxtty7/image/upload/v1741052992/juyn8mhv8kybkkaemyq5.svg" alt="Spring Air Network Solutions" width="150" style="margin-bottom: 20px;">
+      </div>
+      <h2 style="color: #007bff; text-align: center;">New User Registration Alert</h2>
+      <p style="font-size: 16px; color: #333; text-align: center;">
+        A new user <strong style="color: #007bff;">${email}</strong> has signed up.
+      </p>
+      <p style="font-size: 16px; color: #555; text-align: center;">
+        Please review and enable access in the admin panel.
+      </p>
+      <div style="text-align: center; margin-top: 20px;">
+        <a href="https://springairns.com/admin-all-users"
+          style="background-color: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-size: 16px; font-weight: bold; display: inline-block;">
+          ✅ Approve User
+        </a>
+      </div>
+      <hr style="margin-top: 20px; border: none; border-top: 1px solid #ddd;">
+      <p style="font-size: 14px; color: #888; text-align: center;">This is an automated email. Please do not reply.</p>
+    </div>
+  `,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -45,6 +92,7 @@ const register = async (req, res) => {
         console.log("Email sent:", info.response);
       }
     });
+
 
 
     const token = jwt.sign(
@@ -60,7 +108,7 @@ const register = async (req, res) => {
     return res
       .status(200)
       .json({ message: "User has been registered successfully" });
-      // .json({ token, message: "User has been registered successfully" });
+    // .json({ token, message: "User has been registered successfully" });
   } catch (error) {
     return res.status(500).json({ message: "Server error", error });
   }
@@ -119,7 +167,7 @@ const getUsers = async (req, res) => {
 const enableDisableUser = async (req, res) => {
   try {
     const { userId, isEnabled } = req.body;
-    
+
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -137,8 +185,8 @@ const enableDisableUser = async (req, res) => {
 
 // Check Status API = practically no use since middleware won't even hit this API if user is disabled.
 
-const checkStatus = async (req, res)  => {
-  return res.json({message:"Checking Status"});
+const checkStatus = async (req, res) => {
+  return res.json({ message: "Checking Status" });
 }
 
 
