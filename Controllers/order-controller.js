@@ -313,10 +313,102 @@ const fetchTac = async (req, res) => {
   }
 };
 
+// Update Order API
+const updateOrder = async (req, res) => {
+  try {
+    const orderId = req.params.id; // Get the order ID from the request parameters
+    const userId = req.user.userId; // Assuming user ID is available in req.user
+    const {
+      customerData,
+      carrierInfos,
+      accountFields,
+      shippingAddresses,
+      ...orderData
+    } = req.body;
+
+    // Log incoming data for debugging purposes
+    console.log("Incoming data for update:", req.body);
+
+    // Find the existing order
+    const existingOrder = await orderModel.findById(orderId);
+    if (!existingOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    // Update the order fields
+    Object.assign(existingOrder, orderData); // Update order fields with new data
+
+    // Validate and update customer data
+    let customer = null;
+    if (customerData) {
+      customer = await customerModel.findOne({ taxid: customerData.taxid });
+
+      if (customer) {
+        // Update the existing customer only for modified fields
+        const fieldsToUpdate = {};
+        for (const field of [
+          "businesslegalname",
+          "businessaddress",
+          "businesscity",
+          "businessstate",
+          "businesszip",
+          "contactname",
+          "contactphone",
+          "contactemail",
+          "shippingaddress",
+          "shippingcity",
+          "shippingstate",
+          "shippingzip",
+        ]) {
+          if (customer[field] !== customerData[field]) {
+            fieldsToUpdate[field] = customerData[field];
+          }
+        }
+
+        if (Object.keys(fieldsToUpdate).length) {
+          customer = await customerModel.findByIdAndUpdate(
+            customer._id,
+            { $set: fieldsToUpdate },
+            { new: true }
+          );
+          console.log("Customer updated:", customer);
+        }
+      } else {
+        customer = await customerModel.create({
+          ...customerData,
+          agentId: userId,
+        });
+        console.log("Customer created:", customer);
+      }
+    }
+
+    // Update the order with new data
+    existingOrder.carrierInfos = carrierInfos;
+    existingOrder.accounts = accountFields;
+    existingOrder.shippingAddresses = shippingAddresses;
+
+    // Save the updated order
+    await existingOrder.save();
+
+    return res.status(200).json({ message: "Order updated successfully", order: existingOrder });
+  } catch (error) {
+    console.error("Order update error:", error);
+    return res.status(500).json({ message: "Server error", error });
+  }
+};
+
+module.exports = {
+  updateOrder,
+};
+
+module.exports = {
+  updateOrder,
+};
 
 
 module.exports = {
   getSingleOrder,
+  updateOrder,
   orderSubmit,
   getUserOrders,
   getOrders,
