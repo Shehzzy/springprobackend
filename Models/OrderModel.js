@@ -29,6 +29,10 @@ const OrderSchema = new Schema(
     //   type: String,
     //   enum: ["accepted", "declined"],
     // },
+    buyNewPhone: {
+      type: String,
+      enum: ["yes", "no", "accepted"]
+    },
     phonemodel: { type: String },
     imeistatus: { type: String },
     noCracks: { type: String },
