@@ -106,12 +106,13 @@ const OrderSchema = new Schema(
         buyPhoneNumber: { type: Boolean, default: false }, // Already added
         tradeSmartphone: { type: Boolean, default: false }, // <-- Added this
         purchaseSmartphone: { type: Boolean, default: false }, // <-- Added this
-        shippingAddress: {
-          attentionName: { type: String },
-          address: { type: String },
-          city: { type: String },
-          state: { type: String },
-          zip: { type: String },
+        shippingAddress:   {
+          attentionname: { type: String },
+          shippingaddress: { type: String },
+          shippingcity: { type: String },
+          shippingstate: { type: String },
+          shippingzip: { type: String },
+          uniqueCode: { type: String },
         },
       },
     ],
