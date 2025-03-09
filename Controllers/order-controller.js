@@ -290,7 +290,7 @@ const updateOrder = async (req, res) => {
     console.log("Incoming data for update:", req.body);
 
     // Find the existing order
-    const existingOrder = await Order.findById(orderId);
+    const existingOrder = await orderModel.findById(orderId);
     if (!existingOrder) {
       return res.status(404).json({ message: "Order not found" });
     }
@@ -342,7 +342,7 @@ const updateOrder = async (req, res) => {
     // Validate and update customer data
     let customer = null;
     if (customerData) {
-      customer = await Customer.findOne({ taxid: customerData.taxid });
+      customer = await customerModel.findOne({ taxid: customerData.taxid });
 
       if (customer) {
         // Update the existing customer only for modified fields
@@ -377,7 +377,7 @@ const updateOrder = async (req, res) => {
         ]);
 
         if (Object.keys(customerUpdates).length > 0) {
-          customer = await Customer.findByIdAndUpdate(
+          customer = await customerModel.findByIdAndUpdate(
             customer._id,
             { $set: customerUpdates },
             { new: true }
@@ -385,7 +385,7 @@ const updateOrder = async (req, res) => {
           console.log("Customer updated:", customer);
         }
       } else {
-        customer = await Customer.create({
+        customer = await customerModel.create({
           ...customerData,
           agentId: userId,
         });
