@@ -16,6 +16,7 @@ const OrderSchema = new Schema(
     // name: { type: String },
     // email: { type: String },
     sansPartnerID: { type: String },
+    notes: { type: String },
     agreementtype: {
       type: String,
       enum: ["amb", "acda"],
@@ -106,7 +107,7 @@ const OrderSchema = new Schema(
         buyPhoneNumber: { type: Boolean, default: false }, // Already added
         tradeSmartphone: { type: Boolean, default: false }, // <-- Added this
         purchaseSmartphone: { type: Boolean, default: false }, // <-- Added this
-        shippingAddress:   {
+        shippingAddress: {
           attentionname: { type: String },
           shippingaddress: { type: String },
           shippingcity: { type: String },
