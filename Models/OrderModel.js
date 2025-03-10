@@ -84,6 +84,7 @@ const OrderSchema = new Schema(
         billingzip: { type: String },
         authorizedname: { type: String },
         uniqueCode: { type: String },
+        phonenumber: { type: String },
       },
     ],
 
