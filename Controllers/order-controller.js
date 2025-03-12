@@ -129,7 +129,7 @@ const getIMEINumbers = async (req, res) => {
 // Get orders for a user
 const getUserOrders = async (req, res) => {
   try {
-    const userId = req.user.userId;
+    const userId = req.user._id;
 
     // Fetch the user to get the partnerID
     const user = await userModel.findById(userId);
