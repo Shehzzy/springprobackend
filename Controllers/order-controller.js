@@ -134,7 +134,8 @@ const getUserOrders = async (req, res) => {
     // Fetch the user to get the partnerID
     const user = await userModel.findById(userId);
     if (!user) {
-      console.log("User status: ", user, userId)
+      console.log("User status: ", user, userId);
+      console.log("Requested user", req.user);
       return res.status(404).json({ message: "User not found" });
     }
 
