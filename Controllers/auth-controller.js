@@ -166,7 +166,7 @@ const getUsers = async (req, res) => {
 
 const enableDisableUser = async (req, res) => {
   try {
-    const { userId, isEnabled } = req.body;
+    const { userId, isEnabled, partnerId } = req.body;
 
     const user = await User.findById(userId);
     if (!user) {
@@ -174,6 +174,9 @@ const enableDisableUser = async (req, res) => {
     }
 
     user.isEnabled = isEnabled;
+    if (partnerId) {
+      user.partnerId = partnerId; // Update partnerId if provided
+    }
     await user.save();
 
     return res.status(200).json({ message: `User ${isEnabled ? "enabled" : "disabled"} successfully.` });
@@ -182,7 +185,6 @@ const enableDisableUser = async (req, res) => {
     return res.status(500).json({ message: "Server error", error });
   }
 };
-
 // Check Status API = practically no use since middleware won't even hit this API if user is disabled.
 
 const checkStatus = async (req, res) => {

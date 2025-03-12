@@ -51,6 +51,10 @@ const userSchema = new Schema({
   isEnabled:{
     type: Boolean,
     default: false
+  }, 
+  partnerId:{
+    type: String,
+    default:"None"
   }
 });
 
