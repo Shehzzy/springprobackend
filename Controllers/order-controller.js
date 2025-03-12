@@ -4,6 +4,7 @@ const customerModel = require("../Models/CustomerModel"); // Import the Customer
 const ShippingAddress = require("../Models/ShippingAddressModel");
 const tac_database = require('../utils/tac_database.json')
 const Tac = require("../Models/tacModel");
+const userModel = require('../Models/UserModel');
 
 // Order Creation API
 const orderSubmit = async (req, res) => {
@@ -129,10 +130,26 @@ const getIMEINumbers = async (req, res) => {
 const getUserOrders = async (req, res) => {
   try {
     const userId = req.user.userId;
+
+    // Fetch the user to get the partnerID
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const partnerID = user.partnerId; // Assuming partnerID is stored in the user model
+
+    // Fetch orders for the user
     const orders = await orderModel
       .find({ userId })
       .populate("imeiNumbers customerId");
-    res.status(200).json({ message: "Orders retrieved successfully", orders });
+
+    // Include the partnerID in the response
+    res.status(200).json({
+      message: "Orders retrieved successfully",
+      orders,
+      partnerID
+    });
   } catch (error) {
     console.error("Error fetching user orders:", error);
     res.status(500).json({ message: "Internal server error" });
