@@ -138,7 +138,7 @@ const getUserOrders = async (req, res) => {
     }
 
     const partnerID = user.partnerId; // Assuming partnerID is stored in the user model
-
+    console.log("Here is the partner id", partnerID)
     // Fetch orders for the user
     const orders = await orderModel
       .find({ userId })
