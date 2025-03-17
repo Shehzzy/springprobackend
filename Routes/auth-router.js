@@ -9,6 +9,7 @@ router.post("/login", authController.login);
 router.get('/get-users', authenticateJWT, authorizeRole('admin'), (authController.getUsers));
 router.put('/enable-disable-user', authenticateJWT, authorizeRole('admin'), (authController.enableDisableUser));
 router.get("/check-status", authenticateJWT, authController.checkStatus);
+router.get("/get-admin-data", authenticateJWT, authorizeRole('admin'), authController.getAdminFieldsForExcelFile);
 
 
 

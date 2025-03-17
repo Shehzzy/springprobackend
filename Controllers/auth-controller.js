@@ -11,40 +11,15 @@ const UserModel = require("../Models/UserModel");
 const register = async (req, res) => {
   try {
     const { fname, lname, phone, ssn, tax_id, companyname, government_identification, dob,
-      email, password, role } = req.body;
+      email, password, role, attuid, spid } = req.body;
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.json({ message: "User already exists" });
     }
     const userCreate = await User.create({
       fname, lname, phone, ssn, dob,
-      tax_id, companyname, government_identification, email, password, role
+      tax_id, companyname, government_identification, email, password, role, attuid, spid
     });
-
-
-    // Send Email Notification to Admin
-    //  const transporter = nodemailer.createTransport({
-    //   service: "gmail",
-    //   auth: {
-    //     user: process.env.EMAIL_USER,
-    //     pass: process.env.EMAIL_PASS
-    //   }
-    // });
-
-    // const mailOptions = {
-    //   from: process.env.EMAIL_USER,
-    //   to: process.env.PORTAL_EMAIL, // Admin Email
-    //   subject: "New User Registration Pending Approval",
-    //   text: `A new user (${email}) has signed up. Please review and enable access in the admin panel.`
-    // };
-
-    // transporter.sendMail(mailOptions, (error, info) => {
-    //   if (error) {
-    //     console.log("Error sending email:", error);
-    //   } else {
-    //     console.log("Email sent:", info.response);
-    //   }
-    // });
 
     // Stylish email
     const nodemailer = require("nodemailer");
@@ -192,5 +167,22 @@ const checkStatus = async (req, res) => {
 }
 
 
+const getAdminFieldsForExcelFile = async (req, res) => {
+  try {
+    const id = req.user._id;
+    const adminFields = await UserModel.find({ _id: id });
+
+    if (!adminFields) {
+      return res.status(404).json({ message: "Admin data not found" });
+    }
+
+    return res.json({ message: "Here is the admin data", adminFields });
+
+  } catch (error) {
+
+  }
+}
+
+
 // Get All Orders API
-module.exports = { register, login, getUsers, enableDisableUser, checkStatus };
+module.exports = { register, login, getUsers, enableDisableUser, checkStatus , getAdminFieldsForExcelFile};

@@ -4,57 +4,63 @@ const bcrypt = require("bcryptjs");
 const userSchema = new Schema({
   fname: {
     type: String,
-     
+
   },
   lname: {
     type: String,
-     
+
   },
   companyname: {
     type: String,
-     
+
   },
   phone: {
     type: String,
-     
+
   },
   dob: {
     type: String,
-     
+
   },
   ssn: {
     type: String,
-     
+
   },
   tax_id: {
     type: String,
-     
+
   },
   government_identification: {
     type: String,
-     
+
   },
   email: {
     type: String,
-     
+
     unique: true,
   },
   password: {
     type: String,
-     
+
   },
   role: {
     type: String,
     enum: ["user", "admin"],
     default: "user",
   },
-  isEnabled:{
+  isEnabled: {
     type: Boolean,
     default: false
-  }, 
-  partnerId:{
+  },
+  partnerId: {
     type: String,
-    default:"None"
+    default: "None"
+  },
+  attuid: {
+    type: String
+  },
+  spid: {
+    type: String
   }
 });
 

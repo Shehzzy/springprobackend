@@ -142,6 +142,18 @@ const OrderSchema = new Schema(
       type: String,
       default: "Pending",
     },
+    isTaxExempt:{
+      type:String
+    }, 
+    taxExemptNumber: {
+      type:String
+    }, 
+    bestTimeToCall:{
+      type:String
+    }, 
+    timezone: {
+      type:String
+    },
     mappedRelations: { type: Map, of: String },
     // lines: [
     //   {
